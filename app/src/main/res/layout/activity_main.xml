@@ -17,14 +17,14 @@
                 android:layout_height="match_parent">
 
             <Button
-                    android:text="Undo"
+                    android:text="@string/undo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/undoButton"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="50dp" app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="10dp" app:layout_constraintBottom_toBottomOf="parent"/>
             <Button
-                    android:text="Redo"
+                    android:text="@string/redo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/redoButton"
                     app:layout_constraintTop_toTopOf="parent"
