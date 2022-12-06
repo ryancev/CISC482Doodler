@@ -15,3 +15,8 @@
 [Custom View Docs](https://developer.android.com/develop/ui/views/layout/custom-views/custom-components)
 
 [Very helpful stackoverflow comment](https://stackoverflow.com/a/34113632)
+
+---
+## Additional Sources:
+[Android Dialog Docs](https://developer.android.com/develop/ui/views/components/dialogs#PassingEvents)
+
