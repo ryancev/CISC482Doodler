@@ -86,10 +86,8 @@ public class DoodleView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             path.moveTo(pointX, pointY);
             actions.add(new UserAction(path, brush));
-            Log.d("moving", "down");
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            Log.d("moving", "move");
             path.lineTo(pointX, pointY);
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -106,6 +104,7 @@ public class DoodleView extends View {
         paths.clear();
         brushes.clear();
         actions.clear();
+        undoneActions.clear();
         paths.add(path);
         brushes.add(brush);
         invalidate();
@@ -113,12 +112,20 @@ public class DoodleView extends View {
 
     public void undoButtonPressed() {
         if (actions.size() > 0) {
+            UserAction undoneAction = actions.get(actions.size() - 1);
+            undoneActions.add(undoneAction);
             actions.remove(actions.size() - 1);
             path = new Path();
             invalidate();
         }
-        Log.d("undo", actions.toString());
+    }
 
+    public void redoButtonPressed() {
+        if (undoneActions.size() > 0) {
+            actions.add(undoneActions.get(undoneActions.size() - 1));
+            undoneActions.remove(undoneActions.size() - 1);
+            invalidate();
+        }
     }
 
     public int getCurrColor() {

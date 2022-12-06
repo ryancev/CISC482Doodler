@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         Button clearButton = findViewById(R.id.clearButton);
         Button colorButton = findViewById(R.id.colorButton);
         Button undoButton = findViewById(R.id.undoButton);
+        Button redoButton = findViewById(R.id.redoButton);
 
         DoodleView doodleCanvas = findViewById(R.id.doodleView);
 
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 doodleCanvas.undoButtonPressed();
+            }
+        });
+
+        redoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doodleCanvas.redoButtonPressed();
             }
         });
 
