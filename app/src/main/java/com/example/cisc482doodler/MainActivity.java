@@ -1,15 +1,24 @@
 package com.example.cisc482doodler;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import top.defaults.colorpicker.ColorPickerPopup;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ClearCanvasFragment.NoticeDialogListener {
+
+
+    DoodleView doodleCanvas;
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        doodleCanvas.clearButtonPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
         Button undoButton = findViewById(R.id.undoButton);
         Button redoButton = findViewById(R.id.redoButton);
 
-        DoodleView doodleCanvas = findViewById(R.id.doodleView);
+        doodleCanvas = findViewById(R.id.doodleView);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ClearCanvasFragment clearCanvasFragment = new ClearCanvasFragment();
+
 
         SeekBar brushBar = findViewById(R.id.brushBar);
         brushBar.setMax(30);
@@ -29,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doodleCanvas.clearButtonPressed();
+                clearCanvasFragment.show(fragmentManager, "clearCanvasFragment");
+//                doodleCanvas.clearButtonPressed();
             }
         });
 
@@ -79,5 +93,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
