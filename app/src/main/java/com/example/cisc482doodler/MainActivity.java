@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements ClearCanvasFragme
             @Override
             public void onClick(View v) {
                 clearCanvasFragment.show(fragmentManager, "clearCanvasFragment");
-//                doodleCanvas.clearButtonPressed();
             }
         });
 
