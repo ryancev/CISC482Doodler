@@ -26,8 +26,8 @@ public class DoodleView extends View {
     private Path path = new Path();
 
 
-    private ArrayList<Path> paths = new ArrayList<>();
-    private ArrayList<Paint> brushes = new ArrayList<>();
+//    private ArrayList<Path> paths = new ArrayList<>();
+//    private ArrayList<Paint> brushes = new ArrayList<>();
 
     private ArrayList<UserAction> actions = new ArrayList<>();
     private ArrayList<UserAction> undoneActions = new ArrayList<>();
@@ -41,8 +41,8 @@ public class DoodleView extends View {
         brush.setStrokeJoin(Paint.Join.ROUND);
         brush.setStrokeWidth(8f);
 
-        paths.add(path);
-        brushes.add(brush);
+//        paths.add(path);
+//        brushes.add(brush);
     }
 
     public DoodleView(Context context) {
@@ -57,9 +57,9 @@ public class DoodleView extends View {
         brush.setStrokeJoin(Paint.Join.ROUND);
         brush.setStrokeWidth(currWidth);
         brush.setColor(color);
-        brushes.add(brush);
+//        brushes.add(brush);
         path = new Path();
-        paths.add(path);
+//        paths.add(path);
         invalidate();
     }
 
@@ -72,9 +72,9 @@ public class DoodleView extends View {
         brush.setColor(currColor);
         int newWidth = 8 + width;
         brush.setStrokeWidth(newWidth);
-        brushes.add(brush);
+//        brushes.add(brush);
         path = new Path();
-        paths.add(path);
+//        paths.add(path);
         invalidate();
     }
 
@@ -88,6 +88,9 @@ public class DoodleView extends View {
             actions.add(new UserAction(path, brush));
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            if (undoneActions.size() > 0) {
+                undoneActions.clear();
+            }
             path.lineTo(pointX, pointY);
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -101,12 +104,12 @@ public class DoodleView extends View {
 
     public void clearButtonPressed() {
         path = new Path();
-        paths.clear();
-        brushes.clear();
+//        paths.clear();
+//        brushes.clear();
         actions.clear();
         undoneActions.clear();
-        paths.add(path);
-        brushes.add(brush);
+//        paths.add(path);
+//        brushes.add(brush);
         invalidate();
     }
 
