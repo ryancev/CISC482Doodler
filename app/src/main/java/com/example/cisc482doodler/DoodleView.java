@@ -10,19 +10,31 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 public class DoodleView extends View {
+
+    private static class UserAction {
+        public Path path;
+        public Paint brush;
+
+        public UserAction(Path path, Paint brush) {
+            this.path = path;
+            this.brush = brush;
+        }
+    }
 
     private Paint brush = new Paint();
     private Path path = new Path();
 
+
     private ArrayList<Path> paths = new ArrayList<>();
     private ArrayList<Paint> brushes = new ArrayList<>();
+
+    private ArrayList<UserAction> actions = new ArrayList<>();
+    private ArrayList<UserAction> undoneActions = new ArrayList<>();
 
 
     public DoodleView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         brush.setAntiAlias(true);
         brush.setColor(Color.RED);
         brush.setStyle(Paint.Style.STROKE);
@@ -73,9 +85,17 @@ public class DoodleView extends View {
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             path.moveTo(pointX, pointY);
+            actions.add(new UserAction(path, brush));
+            Log.d("moving", "down");
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            Log.d("moving", "move");
             path.lineTo(pointX, pointY);
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP) {
+            actions.remove(actions.size() - 1);
+            actions.add(new UserAction(path, brush));
+            path = new Path();
         }
         postInvalidate();
         return false;
@@ -85,9 +105,20 @@ public class DoodleView extends View {
         path = new Path();
         paths.clear();
         brushes.clear();
+        actions.clear();
         paths.add(path);
         brushes.add(brush);
         invalidate();
+    }
+
+    public void undoButtonPressed() {
+        if (actions.size() > 0) {
+            actions.remove(actions.size() - 1);
+            path = new Path();
+            invalidate();
+        }
+        Log.d("undo", actions.toString());
+
     }
 
     public int getCurrColor() {
@@ -97,10 +128,13 @@ public class DoodleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < paths.size(); i++) {
-            path = paths.get(i);
-            brush = brushes.get(i);
-            canvas.drawPath(path, brush);
+        for (UserAction action : actions) {
+            canvas.drawPath(action.path, action.brush);
         }
+//        for (int i = 0; i < paths.size(); i++) {
+//            path = paths.get(i);
+//            brush = brushes.get(i);
+//            canvas.drawPath(path, brush);
+//        }
     }
 }
